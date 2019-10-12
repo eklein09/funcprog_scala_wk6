@@ -84,22 +84,27 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
+
+  def mapToOccurence(occurenceMap: Map[Char, Int]): Occurrences = {
+    occurenceMap.toList
+  }
+
   def combinations(occurrences: Occurrences): List[Occurrences] = {
+
     if (occurrences.isEmpty)
       List(List())
-    else
-    {
-      if (occurrences.head._2 == 1)
-      {
-        val newcombos:List[Occurrences] = for {combos <- combinations(occurrences.tail)} yield occurrences.head :: combos
-        newcombos ::: combinations(occurrences.tail)
-      }
-      else
-        for {
-          combos <- combinations(occurrences.tail)
-          maybeAdd <- List((occurrences.head._1, occurrences.head._2-1), occurrences.head)
+    else {
+      val occurrenceSeq: IndexedSeq[Occurrences] = {      for {
+        numOccurrencesOfHeadChar: Int <- 0 until (occurrences.head._2 + 1)
+        tailListOfOccurrences: Occurrences <- combinations(occurrences.tail)
+      } yield {
+        if (numOccurrencesOfHeadChar > 0)
+          (occurrences.head._1: Char, numOccurrencesOfHeadChar: Int) :: tailListOfOccurrences
+        else {
+          tailListOfOccurrences
         }
-          yield maybeAdd :: combos
+      }}
+    occurrenceSeq.toList
     }
   }
 
