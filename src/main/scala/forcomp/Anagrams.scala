@@ -85,10 +85,6 @@ object Anagrams {
    *  in the example above could have been displayed in some other order.
    */
 
-  def mapToOccurence(occurenceMap: Map[Char, Int]): Occurrences = {
-    occurenceMap.toList
-  }
-
   def combinations(occurrences: Occurrences): List[Occurrences] = {
 
     if (occurrences.isEmpty)
