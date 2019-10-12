@@ -39,7 +39,7 @@ class AnagramsSuite extends FunSuite  {
 
   test("combinations") {
       assert(
-      combinations(List(('a', 1))) === List(List(), List(('a', 1)))
+      combinations(List(('a', 1))) === List(List(('a', 1)),List())
     )
   }
 

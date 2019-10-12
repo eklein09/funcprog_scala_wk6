@@ -86,27 +86,21 @@ object Anagrams {
    */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
     if (occurrences.isEmpty)
-      List()
+      List(List())
     else
+    {
+      if (occurrences.head._2 == 1)
       {
-        if (occurrences.head._2 == 1)
-          for {
-            combos <- combinations(occurrences.tail)
-            maybeHead <- List(true, false)
-          }
-            yield {
-              if (maybeHead)
-                occurrences.head :: combos
-              else
-                combos
-            }
-        else
-          for {
-            combos <- combinations(occurrences.tail)
-            maybeAdd <- List((occurrences.head._1, occurrences.head._2-1), occurrences.head)
-          }
-          yield maybeAdd :: combos
+        val newcombos:List[Occurrences] = for {combos <- combinations(occurrences.tail)} yield occurrences.head :: combos
+        newcombos ::: combinations(occurrences.tail)
       }
+      else
+        for {
+          combos <- combinations(occurrences.tail)
+          maybeAdd <- List((occurrences.head._1, occurrences.head._2-1), occurrences.head)
+        }
+          yield maybeAdd :: combos
+    }
   }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
