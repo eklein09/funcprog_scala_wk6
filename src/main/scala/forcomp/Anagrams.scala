@@ -114,7 +114,26 @@ object Anagrams {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    if (y.isEmpty)
+      x
+    else {
+      def subtractSingleElement(x: Occurrences, y: (Char, Int)): Occurrences = {
+        if (x.head._1 == y._1) {
+          if (x.head._2 == y._2)
+            x.tail
+          else {
+            (x.head._1, x.head._2 - y._2) :: x.tail
+          }
+        }
+        else {
+          x.head :: subtractSingleElement(x.tail, y)
+        }
+      }
+
+      subtract(subtractSingleElement(x, y.head), y.tail)
+    }
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *
